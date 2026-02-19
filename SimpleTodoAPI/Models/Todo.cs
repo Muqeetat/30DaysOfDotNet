@@ -1,4 +1,4 @@
-﻿namespace SimpleTodoAPI
+﻿namespace SimpleTodoAPI.Models
 {
     public class Todo
     {

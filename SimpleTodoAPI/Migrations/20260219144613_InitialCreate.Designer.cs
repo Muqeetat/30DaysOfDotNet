@@ -4,13 +4,14 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using SimpleTodoAPI.Data;
 
 #nullable disable
 
 namespace SimpleTodoAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260217112119_InitialCreate")]
+    [Migration("20260219144613_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -23,7 +24,7 @@ namespace SimpleTodoAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("SimpleTodoAPI.Todo", b =>
+            modelBuilder.Entity("SimpleTodoAPI.Models.Todo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
