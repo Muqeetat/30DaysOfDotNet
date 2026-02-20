@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SimpleTodoAPI.Data;
+using SimpleTodoAPI.DTOs;
 using SimpleTodoAPI.Models;
 
 
@@ -20,10 +21,23 @@ namespace SimpleTodoAPI.Services
         }
 
         // CREATE
-        public async Task CreateAsync(Todo todo)
+        public async Task<TodoResponseDto> CreateAsync(TodoCreateDto dto)
         {
+            var todo = new Todo
+            {
+                Title = dto.Title,
+                IsCompleted = false // Default value
+            };
+
             db.Todos.Add(todo);
             await db.SaveChangesAsync();
+
+            return new TodoResponseDto
+            {
+                Id = todo.Id,
+                Title = todo.Title,
+                IsCompleted = todo.IsCompleted
+            };
         }
 
         // UPDATE

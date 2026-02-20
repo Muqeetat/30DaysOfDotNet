@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SimpleTodoAPI.DTOs;
 using SimpleTodoAPI.Models;
 using SimpleTodoAPI.Services;
 
@@ -26,11 +27,11 @@ namespace SimpleTodoAPI.Controllers
 
         // POST: api/todos
         [HttpPost]
-        public async Task<IActionResult> Create(Todo todo)
+        public async Task<IActionResult> Create(TodoCreateDto dto)
         {
-            await todoService.CreateAsync(todo);
-            // Best practice: returns 201 Created and the URL to find the new item
-            return CreatedAtAction(nameof(GetById), new { id = todo.Id }, todo);
+            // The [ApiController] attribute handles validation automatically!
+            var response = await todoService.CreateAsync(dto);
+            return CreatedAtAction(nameof(GetById), new { id = response.Id }, response);
         }
 
         // PUT: api/todos/5
