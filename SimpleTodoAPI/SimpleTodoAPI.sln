@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36930.0 d17.14
+# Visual Studio Version 18
+VisualStudioVersion = 18.3.11512.155 d18.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleTodoAPI", "SimpleTodoAPI.csproj", "{DE3EE274-42D3-D3F7-B9D2-10B5375E04FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDVerificationAPI", "..\IDVerificationAPI\IDVerificationAPI.csproj", "{A7D314C6-D697-D230-E5A7-C878884445B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{DE3EE274-42D3-D3F7-B9D2-10B5375E04FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE3EE274-42D3-D3F7-B9D2-10B5375E04FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE3EE274-42D3-D3F7-B9D2-10B5375E04FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7D314C6-D697-D230-E5A7-C878884445B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7D314C6-D697-D230-E5A7-C878884445B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7D314C6-D697-D230-E5A7-C878884445B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7D314C6-D697-D230-E5A7-C878884445B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

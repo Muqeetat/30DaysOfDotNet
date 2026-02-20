@@ -1,4 +1,4 @@
-# 30DaysOfDotNet
+# SimpleTodoAPI
 
 ## Day 1: Environment Setup
 
