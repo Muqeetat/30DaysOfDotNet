@@ -529,7 +529,7 @@ By default, the `[Route("api/[controller]")]` attribute in your `TodosController
 
 ---
 
-## Day 6: 
+## Day 6: Refactor code and Review Naming
 
 ---
 
