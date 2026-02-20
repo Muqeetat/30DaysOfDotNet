@@ -33,3 +33,17 @@ git commit -m "Day 8: Initial IDVerfication API setup"
 git push origin main
 
 ```
+
+### Step 3: Define the Models
+
+1. Create a new file called `User.cs`:
+
+```csharp
+public class Todo
+{
+    public int Id { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+}
+
+```
