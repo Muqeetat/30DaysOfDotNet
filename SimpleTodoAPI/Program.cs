@@ -9,9 +9,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Register our Service (The "Magic" of DI)
-builder.Services.AddScoped<ITodoService, TodoService>();
-
 // Add support for Controllers
 builder.Services.AddControllers();
 
