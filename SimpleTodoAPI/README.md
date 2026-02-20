@@ -2,7 +2,7 @@
 
 ## Day 1: Environment Setup
 
-### Phase 1: Create the GitHub Repository
+### Step 1: Create the GitHub Repository
 
 1. Log into **GitHub**.
 2. Click the **+** icon in the top right and select **New repository**.
@@ -13,7 +13,7 @@
 
 ---
 
-### Phase 2: Create the Web API Project
+### Step 2: Create the Web API Project
 
 Open your terminal (PowerShell, CMD, or Bash) and run these commands.
 
@@ -37,7 +37,7 @@ dotnet run
 
 ---
 
-### Phase 3: Push to GitHub
+### Step 3: Push to GitHub
 
 Now, let's send that code up to the cloud. From your main `30DaysOfDotNet` directory:
 

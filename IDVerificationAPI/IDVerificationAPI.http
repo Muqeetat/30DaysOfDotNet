@@ -1,0 +1,6 @@
+@IDVerificationAPI_HostAddress = http://localhost:5209
+
+GET {{IDVerificationAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

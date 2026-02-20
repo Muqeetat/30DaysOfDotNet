@@ -1,6 +1,6 @@
- # SimpleTodoAPI (.NET 10)
+ ## Project 1: SimpleTodoAPI (.NET 10)
 
-A clean, production-ready Todo API built over 30 days to master .NET fundamentals.
+A clean, production-ready Todo API built over 7 days to master .NET fundamentals.
 
 ## Features
 - **Clean Architecture:** Separation of Concerns with Controllers, Services, and DTOs.
@@ -18,3 +18,6 @@ A clean, production-ready Todo API built over 30 days to master .NET fundamental
 2. Update `appsettings.json` with your Connection String.
 3. Run `dotnet ef database update`.
 4. Press `F5` or `dotnet run`.
+
+
+## Project 2: ID Verification System
