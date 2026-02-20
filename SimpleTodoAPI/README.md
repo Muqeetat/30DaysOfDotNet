@@ -529,7 +529,7 @@ By default, the `[Route("api/[controller]")]` attribute in your `TodosController
 
 ---
 
-## Day 6: Refactor code and Review Naming
+## Day 6:  Validation + DTOs
 
 ---
 
@@ -640,7 +640,7 @@ public async Task<IActionResult> Create(TodoCreateDto dto)
 
 ---
 
-## Day 7 
+## Day 7 : Refactor code and Review Naming
 
 ### 1. The Refactor Checklist
 
