@@ -4,15 +4,16 @@ using IDVerificationAPI.Data;
 
 namespace IDVerificationAPI.Services;
 
-public class VerificationService(AppDbContext _context) : IVerificationService
+public class VerificationService(AppDbContext _context, ILogger<VerificationService> logger) : IVerificationService
 {
-    public async Task<IEnumerable<VerificationRequest>> GetAllAsync()=>
-        
-        await _context.VerificationRequests
-        .Include(v => v.User) // 👈 Important: Joins the User table so you see who was verified
+    public async Task<IEnumerable<VerificationRequest>> GetAllAsync()
+    {
+        logger.LogInformation("Fetching all verification records from the database.");
+        return await _context.VerificationRequests
+        .Include(v => v.User)
          .OrderByDescending(v => v.ProcessedAt)
         .ToListAsync();
- 
+    }
     public async Task<bool> PerformExternalCheckAsync(string nationalId)
     {
         // Simulate "Network Latency" calling an external Government API
@@ -20,11 +21,18 @@ public class VerificationService(AppDbContext _context) : IVerificationService
 
         // Simulation Logic: 
         // Let's pretend any ID starting with "ABC" is valid, and others are fake.
-        if (nationalId.StartsWith("ABC"))
+        bool isValid = nationalId.StartsWith("ABC");
+
+        if (isValid)
         {
-            return true;
+            logger.LogInformation("Identity verification SUCCESS for ID: {NationalId}", nationalId);
         }
-        return false;
+        else
+        {
+            logger.LogWarning("Identity verification FAILED for ID: {NationalId}", nationalId);
+        }
+
+        return isValid;
     }
 
     

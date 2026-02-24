@@ -146,3 +146,7 @@ Use any other ID format to test the "Failed" logic and database logging.
 
 ---
 
+### Day 12: Add built-in logging
+
+* **Feature:** Integrated `ILogger<T>` into the service layer.
+* **Implementation:** Added strategic logging for the verification lifecycle (Start, Success, Failure).

@@ -1,4 +1,5 @@
 using IDVerificationAPI.Data;
+using IDVerificationAPI.Middleware;
 using IDVerificationAPI.Services;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
@@ -19,6 +20,9 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IVerificationService, VerificationService>(); ;
 
 var app = builder.Build();
+
+// 1. Add this first so it catches errors from everything below it
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
