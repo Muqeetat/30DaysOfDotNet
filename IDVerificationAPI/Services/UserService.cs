@@ -15,6 +15,18 @@ namespace IDVerificationAPI.Services
 
         public async Task<UserResponseDto> CreateAsync(UserCreateDto dto)
         {
+
+            // 1. Check if an ID already exists using the DTO data
+            bool idExists = await _context.Users
+                .AnyAsync(u => u.NationalId == dto.NationalId);
+
+            if (idExists)
+            {
+                // In a Service, we usually throw a custom exception 
+                // which our Day 13 Middleware will catch!
+                throw new InvalidOperationException("A user with this National ID already exists.");
+            }
+
             var user = new User
             {
                 FullName = dto.Name,

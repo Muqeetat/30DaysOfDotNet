@@ -1,4 +1,5 @@
-﻿using IDVerificationAPI.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using IDVerificationAPI.Data;
 using IDVerificationAPI.DTOs;
 using IDVerificationAPI.Models;
 using IDVerificationAPI.Services;
@@ -6,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("api/[controller]")]
-public class VerificationsController(AppDbContext db, IVerificationService _verifyService) : ControllerBase
+public class VerificationsController(AppDbContext _context, IVerificationService _verifyService) : ControllerBase
 {
     [HttpGet]
     public async Task<IActionResult> GetAllVerified()
@@ -19,8 +20,25 @@ public class VerificationsController(AppDbContext db, IVerificationService _veri
     public async Task<IActionResult> Verify(VerifyRequestDto dto)
     {
         // 1. Find the user
-        var user = await db.Users.FindAsync(dto.UserId);
+        var user = await _context.Users.FindAsync(dto.UserId);
         if (user == null) return NotFound("User not found.");
+
+        if (user.IsVerified)
+        {
+            return BadRequest(new
+            {
+                message = "This user is already verified. No further action needed."
+            });
+        }
+
+        // Stop them from clicking the button twice while the first one is still processing
+        var pendingRequest = await _context.VerificationRequests
+            .AnyAsync(v => v.UserId == dto.UserId && v.Status == "Pending");
+
+        if (pendingRequest)
+        {
+            return Conflict("A verification is already in progress. Please wait.");
+        }
 
         // 2. Create a "Pending" record in history
         var request = new VerificationRequest 
@@ -31,8 +49,8 @@ public class VerificationsController(AppDbContext db, IVerificationService _veri
             CreatedAt = DateTime.UtcNow
         };
 
-        db.VerificationRequests.Add(request);
-        await db.SaveChangesAsync();
+        _context.VerificationRequests.Add(request);
+        await _context.SaveChangesAsync();
 
         // 3. Call the "External" Mock Service
         bool isValid = await _verifyService.PerformExternalCheckAsync(dto.NationalId);
@@ -50,7 +68,7 @@ public class VerificationsController(AppDbContext db, IVerificationService _veri
             request.Status = "Failed";
         }
 
-        await db.SaveChangesAsync();
+        await _context.SaveChangesAsync();
 
         return Ok(request);
     }

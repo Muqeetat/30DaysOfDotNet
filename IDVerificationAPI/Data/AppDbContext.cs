@@ -8,6 +8,14 @@ namespace IDVerificationAPI.Data
     {
         public DbSet<User> Users => Set<User>();
         public DbSet<VerificationRequest> VerificationRequests => Set<VerificationRequest>();
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // This makes the NationalId column unique across the whole table
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.NationalId)
+                .IsUnique();
+        }
     }
 
 }

@@ -29,7 +29,7 @@ namespace IDVerificationAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(UserCreateDto dto)
         {
-            // The [ApiController] attribute handles validation automatically!
+            
             var response = await userService.CreateAsync(dto);
             return CreatedAtAction(nameof(GetById), new { id = response.Id }, response);
         }

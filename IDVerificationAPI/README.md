@@ -150,3 +150,73 @@ Use any other ID format to test the "Failed" logic and database logging.
 
 * **Feature:** Integrated `ILogger<T>` into the service layer.
 * **Implementation:** Added strategic logging for the verification lifecycle (Start, Success, Failure).
+
+---
+
+### Day 13: Global Exception Middleware
+
+Feature: Implemented a centralized ExceptionMiddleware to catch all unhandled errors.
+
+Implementation: Developed a custom ErrorResponse model to standardize API error outputs.
+
+Security: Configured environment-based error reporting to hide sensitive stack traces in production while allowing full debugging in development.
+
+Congratulations! You’ve reached the end of Week 2. You have a functional, logged, and error-protected **IDVerificationAPI**. Day 14 is about moving your code from "It works on my machine" to "It works on the internet."
+
+Deploying to **Azure App Service** (Free Tier) is the industry standard for .NET apps.
+
+---
+##  Deployment to Azure App Service (Free Tier)
+
+### Step 1: Prepare for Deployment
+
+Azure needs to know how to talk to your database. In production, we don't hardcode connection strings; we use **Environment Variables**.
+
+1. **Check your `Program.cs**`: Ensure you are using `builder.Configuration.GetConnectionString("DefaultConnection")`.
+2. **Publish locally first**: Run this command to make sure the app can bundle itself correctly:
+```bash
+dotnet publish -c Release
+
+```
+
+---
+
+### Step 2: Deploying to Azure (The "Easy" Way)
+
+Since you are using Visual Studio or VS Code, the easiest path is the built-in integration.
+
+#### **Using VS Code (Azure App Service Extension):**
+
+1. Install the **Azure Resources** extension.
+2. Sign in to your Azure Free Account.
+3. Click the **Azure icon** in the sidebar -> **App Service** -> **Create New Web App** (Advanced).
+4. **Name:** `id-verification-api-[yourname]` (must be unique).
+5. **Runtime Stack:** `.NET 10` (or the version you are using).
+6. **OS:** Linux (usually cheaper/faster for .NET).
+7. **Plan:** Select **"F1 Free"** tier.
+
+---
+
+### Step 3: Handling the Database
+
+On the Free Tier, you have two choices for the database:
+
+1. **Azure SQL (Free for 12 months)**: Create a "Serverless" SQL database in the Azure Portal.
+2. **Connection String**: Once created, go to your **App Service** in the Azure Portal -> **Configuration** -> **Connection Strings** and add `DefaultConnection` with the production string.
+
+---
+
+### Step 4: The Final Review (The 30-Day Progress)
+
+Before we move to Week 3, let's look at what you've built:
+
+| Week 1: Basics | Week 2: Identity & Security (IDVerificationAPI) |
+| --- | --- |
+| C# Fundamentals | **Relational Data Modeling** (Users & Requests) |
+| Basic Controllers | **Dependency Injection** & Service Layer |
+| Memory Storage | **Entity Framework & SQL Server** |
+| Postman Testing | **Mocking External APIs** & Latency Simulation |
+|  | **Global Error Handling & Logging** |
+
+---
+
