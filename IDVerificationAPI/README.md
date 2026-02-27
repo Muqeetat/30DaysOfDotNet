@@ -166,57 +166,72 @@ Congratulations! You’ve reached the end of Week 2. You have a functional, logg
 Deploying to **Azure App Service** (Free Tier) is the industry standard for .NET apps.
 
 ---
-##  Deployment to Azure App Service (Free Tier)
+##  Day 14: Deployment to Azure App Service (Free Tier)
 
-### Step 1: Prepare for Deployment
+### 1. Step-by-Step Deployment (Visual Studio)
 
-Azure needs to know how to talk to your database. In production, we don't hardcode connection strings; we use **Environment Variables**.
+#### **Step A: The Publish Wizard**
 
-1. **Check your `Program.cs**`: Ensure you are using `builder.Configuration.GetConnectionString("DefaultConnection")`.
-2. **Publish locally first**: Run this command to make sure the app can bundle itself correctly:
-```bash
-dotnet publish -c Release
+1. **Right-click** your Project (the API project) in Solution Explorer and select **Publish**.
+2. **Target:** Select **Azure**, then click Next.
+3. **Specific Target:** Select **Azure App Service (Windows)**. (Windows is generally easier for initial .NET deployments).
+4. **App Service:** * Click the **+ (Create New)** button.
+* **Name:** Give it a unique name (e.g., `id-verify-api-yourname`).
+* **Hosting Plan:** Click **New**. Change the **Size** to **Free (F1)**. *This is the most important step to avoid charges.*
+* Click **Create**. Wait for Azure to provision the "house" for your code.
 
-```
+
+
+#### **Step B: Setting up the Database**
+
+In the same Publish screen, you’ll see a section for **Service Dependencies**.
+
+1. Click the **+** or **Connect** next to **SQL Server Database**.
+2. Select **Azure SQL Database** -> Next.
+3. Click **Create New**:
+* **Database Name:** `IDVerificationDb`.
+* **Database Server:** Create a new server. *Keep your admin username and password safe!*
+* **Note:** If prompted for a firewall rule, select **"Add my client IP"** so your local Visual Studio can talk to it.
+
+
+4. Once created, Visual Studio will ask for the **Connection String name**. Ensure it matches the one in your `appsettings.json` (usually `DefaultConnection`).
+
+#### **Step C: Migrations in the Cloud**
+
+Visual Studio can run your migrations during the push:
+
+1. On the Publish Summary page, click **More Actions** -> **Edit**.
+2. Go to the **Settings** tab.
+3. Expand **Entity Framework Migrations**.
+4. Check the box: **Apply this migration on publish**.
+5. Click **Save**.
+
+---
+
+### 3. The Big Moment: "Publish"
+
+Click the big **Publish** button at the top of the summary screen.
+
+* Visual Studio will build your project in **Release** mode.
+* It will zip up your files and send them to Azure.
+* It will run `dotnet ef database update` on the Azure SQL instance.
+* Your browser will open automatically to your new URL: `https://your-app-name.azurewebsites.net/swagger`.
 
 ---
 
-### Step 2: Deploying to Azure (The "Easy" Way)
+### 4. Verification Checklist
 
-Since you are using Visual Studio or VS Code, the easiest path is the built-in integration.
+Once live, test these three things to ensure the "Day 14" mission is complete:
 
-#### **Using VS Code (Azure App Service Extension):**
-
-1. Install the **Azure Resources** extension.
-2. Sign in to your Azure Free Account.
-3. Click the **Azure icon** in the sidebar -> **App Service** -> **Create New Web App** (Advanced).
-4. **Name:** `id-verification-api-[yourname]` (must be unique).
-5. **Runtime Stack:** `.NET 10` (or the version you are using).
-6. **OS:** Linux (usually cheaper/faster for .NET).
-7. **Plan:** Select **"F1 Free"** tier.
+1. **Swagger UI:** Does it load at the `/swagger` URL?
+2. **Database Connection:** Try the `POST /api/users` endpoint. Does it successfully save a user to the cloud database?
+3. **Middleware:** Trigger an error (e.g., fetch a User ID that doesn't exist). Does your custom `ExceptionMiddleware` still return a clean JSON error?
 
 ---
 
-### Step 3: Handling the Database
+### 🛡️ Deployment Pro-Tip
 
-On the Free Tier, you have two choices for the database:
+**Hidden Secrets:** Do **not** hardcode your Azure SQL password in `appsettings.json`. Instead, go to the **Azure Portal** -> **Your App Service** -> **Configuration**. Add your connection string there. Azure will automatically inject it into your app, keeping your password out of your source code!
 
-1. **Azure SQL (Free for 12 months)**: Create a "Serverless" SQL database in the Azure Portal.
-2. **Connection String**: Once created, go to your **App Service** in the Azure Portal -> **Configuration** -> **Connection Strings** and add `DefaultConnection` with the production string.
-
----
-
-### Step 4: The Final Review (The 30-Day Progress)
-
-Before we move to Week 3, let's look at what you've built:
-
-| Week 1: Basics | Week 2: Identity & Security (IDVerificationAPI) |
-| --- | --- |
-| C# Fundamentals | **Relational Data Modeling** (Users & Requests) |
-| Basic Controllers | **Dependency Injection** & Service Layer |
-| Memory Storage | **Entity Framework & SQL Server** |
-| Postman Testing | **Mocking External APIs** & Latency Simulation |
-|  | **Global Error Handling & Logging** |
-
----
+**Would you like me to show you how to set up those environment variables in the Azure Portal to keep your connection string secret?**
 
