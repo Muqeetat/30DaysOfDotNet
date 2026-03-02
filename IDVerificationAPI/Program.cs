@@ -23,7 +23,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IVerificationService, VerificationService>(); ;
+builder.Services.AddScoped<IVerificationService, VerificationService>();
 
 var app = builder.Build();
 
