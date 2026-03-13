@@ -283,3 +283,103 @@ app.MapControllers();      // 5. Execute the code
 3. **Login:** Receive your JWT and check your browser cookies for the Refresh Token.
 4. **Access:** Use the Bearer token to access a protected route.
 5. **Limit:** Try to spam the login 20 times to trigger the `429 Too Many Requests` response.
+
+
+
+### Step 11: Decoupling for Clean Architecture (Day 21)
+
+#### **1. The Interface (`IAuthService.cs`)**
+
+This is the contract. It tells the Controller *what* can be done without showing *how*.
+
+```csharp
+public interface IAuthService
+{
+    Task<User> RegisterAsync(UserDto request);
+    Task<(string Token, RefreshToken RefreshToken, User User)?> LoginAsync(UserDto request);
+    Task<(string Token, RefreshToken RefreshToken, User User)?> RefreshTokenAsync(string oldToken);
+    Task UpdateUserRefreshToken(User user, RefreshToken newRefreshToken);
+}
+
+```
+
+#### **2. The Implementation (`AuthService.cs`)**
+
+This is the "Chef" in the kitchen. It handles the database, BCrypt, and JWT logic.
+
+```csharp
+public class AuthService(AppDbContext _context, IConfiguration _configuration) : IAuthService
+{
+    public async Task<User> RegisterAsync(UserDto request)
+    {
+        var hashed = BCrypt.Net.BCrypt.HashPassword(request.Password);
+        var user = new User { Email = request.Email, PasswordHash = hashed };
+        _context.Users.Add(user);
+        await _context.SaveChangesAsync();
+        return user;
+    }
+    // ... plus Login, Refresh, and Token Generation logic ...
+}
+
+```
+
+#### **3. The Lean Controller (`AuthController.cs`)**
+
+The Controller now only handles HTTP concerns (status codes and cookies).
+
+```csharp
+public class AuthController(IAuthService _authService) : ControllerBase
+{
+    [HttpPost("login")]
+    public async Task<ActionResult<string>> Login(UserDto request)
+    {
+        var result = await _authService.LoginAsync(request);
+        if (result == null) return BadRequest("Invalid credentials.");
+
+        SetRefreshTokenCookie(result.Value.RefreshToken);
+        await _authService.UpdateUserRefreshToken(result.Value.User, result.Value.RefreshToken);
+
+        return Ok(result.Value.Token);
+    }
+    // ... other endpoints call _authService ...
+}
+
+```
+
+---
+
+### Step 12: Production-Ready Secret Management
+
+Never hardcode your `Jwt:Key` in `appsettings.json` when pushing to GitHub. Use **Environment Variables** or **User Secrets**.
+
+**To use User Secrets (Local Dev):**
+
+1. Right-click your project -> **Manage User Secrets**.
+2. Add your sensitive data there:
+
+```json
+{
+  "Jwt": {
+    "Key": "Your-Super-Secret-Unstoppable-Key-12345!"
+  }
+}
+
+```
+
+---
+
+### Final Project Architecture Summary
+
+By completing these steps, you have built a **Professional Grade API**:
+
+* **Security:** Passwords are hashed, not stored.
+* **Authentication:** Uses industry-standard JWT.
+* **Resilience:** Rate limiting prevents brute-force attacks.
+* **Maintainability:** Decoupled architecture makes the code easy to test and upgrade.
+
+| Layer | Responsibility |
+| --- | --- |
+| **Controller** | Handles HTTP Requests/Responses & Cookies. |
+| **Service** | Handles Business Logic, Hashing, and Tokens. |
+| **Interface** | Defines the "Contract" between layers. |
+| **Middleware** | Filters traffic (Auth, Rate Limiting) in a specific order. |
