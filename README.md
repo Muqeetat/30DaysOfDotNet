@@ -12,7 +12,7 @@ This repository contains a series of projects tracking my journey from building 
 ## ⚙️ How to Run
 
 1. **Clone the repo.**
-2. **Update `appsettings.json**` with your local SQL Connection String.
+2. **Update `appsettings.json'** with your local SQL Connection String.
 3. **Run Migrations:** Open your terminal in the project folder and run:
 ```bash
 dotnet ef database update
