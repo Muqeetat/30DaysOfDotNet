@@ -15,8 +15,18 @@ namespace AuthSystemAPI.Services
     {
         public async Task<User> RegisterAsync(UserDto request)
         {
+            if (await _context.Users.AnyAsync(u => u.Email == request.Email))
+            {
+                throw new InvalidOperationException("A user with this email already exists.");
+            }
+
             string hashed = BCrypt.Net.BCrypt.HashPassword(request.Password);
-            var user = new User { Email = request.Email, PasswordHash = hashed };
+            var user = new User {
+                Email = request.Email,
+                PasswordHash = hashed,
+                Role = "User",
+                CreatedAt = DateTime.UtcNow
+            };
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();

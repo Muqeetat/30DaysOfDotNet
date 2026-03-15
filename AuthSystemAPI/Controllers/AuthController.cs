@@ -23,8 +23,16 @@ namespace AuthSystemAPI.Controllers
         [HttpPost("register")]
         public async Task<ActionResult> Register(UserDto request)
         {
-            await _authService.RegisterAsync(request);
-            return Ok("User registered successfully!");
+            try
+            {
+                await _authService.RegisterAsync(request);
+                return Ok("User registered successfully!");
+            }
+            catch (InvalidOperationException ex)
+            {
+                // The service threw the error, the controller turns it into a 400 BadRequest
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("login")]

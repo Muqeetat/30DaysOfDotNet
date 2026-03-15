@@ -7,7 +7,7 @@
         public string PasswordHash { get; set; } = string.Empty;
         // Day 17: Assign a default role
         public string Role { get; set; } = "User";
-
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public string RefreshToken { get; set; } = string.Empty;
         public DateTime TokenCreated { get; set; }
         public DateTime TokenExpires { get; set; }
