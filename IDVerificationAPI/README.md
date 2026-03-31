@@ -218,20 +218,3 @@ Click the big **Publish** button at the top of the summary screen.
 * Your browser will open automatically to your new URL: `https://your-app-name.azurewebsites.net/swagger`.
 
 ---
-
-### 4. Verification Checklist
-
-Once live, test these three things to ensure the "Day 14" mission is complete:
-
-1. **Swagger UI:** Does it load at the `/swagger` URL?
-2. **Database Connection:** Try the `POST /api/users` endpoint. Does it successfully save a user to the cloud database?
-3. **Middleware:** Trigger an error (e.g., fetch a User ID that doesn't exist). Does your custom `ExceptionMiddleware` still return a clean JSON error?
-
----
-
-### 🛡️ Deployment Pro-Tip
-
-**Hidden Secrets:** Do **not** hardcode your Azure SQL password in `appsettings.json`. Instead, go to the **Azure Portal** -> **Your App Service** -> **Configuration**. Add your connection string there. Azure will automatically inject it into your app, keeping your password out of your source code!
-
-**Would you like me to show you how to set up those environment variables in the Azure Portal to keep your connection string secret?**
-
