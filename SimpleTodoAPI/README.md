@@ -669,19 +669,11 @@ Naming is one of the hardest things in programming. Let's make yours "Industry S
 
 ---
 
-### 3. Write a Killer README
+### 3. Push the Clean Version
 
-Your GitHub repository is your resume. A good `README.md` makes a huge difference. Use this template:
-
----
-
-### 4. Push the Clean Version
-
-Time to finalize your work. Run these commands to ensure your Git history is clean:
+Run these commands to ensure your Git history is clean:
 
 ```bash
-# Verify everything is saved
-git status
 
 # Add and commit with a meaningful message
 git add .
